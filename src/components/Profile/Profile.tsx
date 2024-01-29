@@ -1,19 +1,18 @@
 import React from "react";
-import { Container } from "./Profile.styled";
+import { Container} from "./Profile.styled";
 import { UserOutlined } from "@ant-design/icons";
 import { Avatar } from "antd";
 import { useAppSelector, useAppDispatch } from "../../hook";
 import { selectTodos, selectUser } from "../../utilites/selectors";
 import { Button, Input, Space, Form } from "antd";
 import { changeAvatar, getUser } from "../../store/userSlice";
-import { useEffect, useState } from "react";
-import { getTodos } from "../../store/todoSlice";
-
+import { useState } from "react";
+import { ToastContainer, toast } from "react-toastify";
+import { toastErrorImage } from "../../utilites/tosters";
 
 type FieldType = {
   avatar?: string;
 };
-
 
 const Profile: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -22,10 +21,7 @@ const Profile: React.FC = () => {
   const completedTodos = todos.length - activedTodos;
   const allTodos = todos.length;
   const user = useAppSelector(selectUser);
-  const email = user.email;
-  const pass = user.password;
-  const id = user.id && user.id.length;
-  let avatar = user.avatar;
+  const { email, password, id, avatar } = user;
   const [formAva, setFormAva] = useState(false);
 
   const onFinish = async (values: any) => {
@@ -36,14 +32,13 @@ const Profile: React.FC = () => {
       if (response.payload.message !== "Avatar changed") {
         return;
       }
-      avatar = values.avatar;
     } catch (error) {
-      console.log("Failed");
+      toastErrorImage();
     }
   };
 
   const onFinishFailed = (errorInfo: any) => {
-    console.log("Failed:", errorInfo);
+    toastErrorImage();
   };
 
   return (
@@ -54,9 +49,13 @@ const Profile: React.FC = () => {
             size={200}
             icon={avatar ? <img src={avatar} alt="AVA" /> : <UserOutlined />}
           />
-          <Button style={{ width: "200px" }} type="primary" onClick={() => setFormAva(!formAva)}>
+          <Button
+            style={{ width: "200px" }}
+            onClick={() => setFormAva(!formAva)}
+          >
             New avatar
           </Button>
+
           {formAva && (
             <Form
               name="basic"
@@ -68,7 +67,7 @@ const Profile: React.FC = () => {
             >
               <Space.Compact style={{ width: "200px" }}>
                 <Form.Item<FieldType> name="avatar">
-                  <Input defaultValue="https..." />
+                  <Input placeholder="Enter your email" />
                 </Form.Item>
 
                 <Form.Item>
@@ -80,14 +79,13 @@ const Profile: React.FC = () => {
             </Form>
           )}
         </div>
-
-        <div className="info">
-          <ul>
-            <li>your email: {email}</li>
-            <li>your pass: {pass}</li>
-            <li>your id: {id}</li>
-          </ul>
-        </div>
+      </div>
+      <div className="info">
+        <ul>
+          <li>your email: {email}</li>
+          <li>your pass: {password}</li>
+          <li>your id: {id}</li>
+        </ul>
       </div>
       <div className="aboutTodos">
         <ul>
@@ -96,6 +94,7 @@ const Profile: React.FC = () => {
           <li>all active: {activedTodos}</li>
         </ul>
       </div>
+      <ToastContainer />
     </Container>
   );
 };

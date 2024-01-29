@@ -5,7 +5,7 @@ import {
   editorTodo,
   deletedTodo,
   setDoneTodo,
-  setEditTodo
+  setEditTodo,
 } from "../../../store/todoSlice";
 import { TodoWrapper } from "./Todo.styles";
 
@@ -18,18 +18,17 @@ interface TodoProps {
   isEdit: boolean;
 }
 
-
 const Todo: React.FC<TodoProps> = ({ _id, title, done, isEdit }) => {
   const dispatch = useAppDispatch();
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const goToggle = () => {
-    dispatch(setDoneTodo(_id))
+    dispatch(setDoneTodo(_id));
   };
 
   const goDelete: React.MouseEventHandler<HTMLImageElement> = (e) => {
     e.stopPropagation();
-    dispatch(deletedTodo(_id))
+    dispatch(deletedTodo(_id));
   };
 
   const handleEdit = () => {
@@ -54,7 +53,7 @@ const Todo: React.FC<TodoProps> = ({ _id, title, done, isEdit }) => {
 
   const editTextTodo: React.FocusEventHandler<HTMLInputElement> = (e) => {
     dispatch(editorTodo(_id));
-    dispatch(setEditTodo({id:_id, title: e.target.value}))
+    dispatch(setEditTodo({ id: _id, title: e.target.value }));
   };
 
   return (
@@ -67,7 +66,7 @@ const Todo: React.FC<TodoProps> = ({ _id, title, done, isEdit }) => {
       <div onDoubleClick={handleWrapperDoubleClick} className="todo-wrapper">
         <button>
           <img
-            src={done ? "./accetp.png" : "./noaccept.png"}
+            src={done ? "/accetp.png" : "/noaccept.png"}
             alt="accept"
             onClick={goToggle}
           ></img>
@@ -85,10 +84,18 @@ const Todo: React.FC<TodoProps> = ({ _id, title, done, isEdit }) => {
         )}
       </div>
       <button>
-        <img src="./deletebut.png" alt="delete" onClick={goDelete}></img>
+        <img
+          src="/deletebut.png"
+          alt="delete"
+          onClick={goDelete}
+        ></img>
       </button>
       <button>
-        <img src="./share.png" alt="delete" onClick={() => navigate(`/todos/${_id}`)}></img>
+        <img
+          src="/share.png"
+          alt="delete"
+          onClick={() => navigate(`/todos/${_id}`)}
+        ></img>
       </button>
     </TodoWrapper>
   );

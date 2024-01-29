@@ -1,23 +1,57 @@
-import { getMe } from "../../../store/userSlice";
-import { useEffect, useState } from "react";
-import { useAppDispatch, useAppSelector } from "../../../hook";
+
+import { useAppSelector } from "../../../hook";
 import { selectUser } from "../../../utilites/selectors";
 import {
-  Routes,
-  Route,
-  Link,
   Navigate,
-  useNavigate,
   useLocation,
 } from "react-router-dom";
 
 const RequireAuth = ({ children }: { children: JSX.Element }) => {
   const user = useAppSelector(selectUser)
-  const {email, password} = user
-  const navigate = useNavigate();
-  const dispatch = useAppDispatch();
+  const { email } = user
   const location = useLocation();
-  const [isLoading, setIsLoading] = useState(true)
+ 
+  
+  
+  if (!email) {
+    return <Navigate to="/" state={{ from: location }} replace />
+  }
+  
+  return children;
+};
+
+export default RequireAuth;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
   // useEffect(() => {
   //   const checkAuth = async () => {
@@ -43,15 +77,6 @@ const RequireAuth = ({ children }: { children: JSX.Element }) => {
     //   return null;
     // }
 
-    
-    if (!email) {
-    return <Navigate to="/" state={{ from: location }} replace />
-    }
-
-  return children;
-};
-
-export default RequireAuth;
 
   // useEffect(() => {
   //   if (!isActive) {

@@ -4,25 +4,16 @@ import { FormWrapper } from "./Form.styles";
 import { addTodo, allSelect } from "../../../store/todoSlice";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { toastErrorTusk } from "../../../utilites/tosters";
 
 const Form: React.FC = () => {
   const [value, setValue] = useState("");
   const dispatch = useAppDispatch();
-  // const userId = useAppSelector(selectUserId)
 
   const submitFormHandler: React.FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault();
     if (!value) {
-      toast.error('Невозможно добавить пустую задачу', {
-        position: "top-center",
-        autoClose: 2000,
-        hideProgressBar: true,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "colored",
-        });
+      toastErrorTusk()
     }
     dispatch(addTodo({ title: value }));
     setValue("");
@@ -39,7 +30,7 @@ const Form: React.FC = () => {
             dispatch(allSelect());
           }}
         >
-          <img src="./select.png" alt="select" />
+          <img src="/select.png" alt="select" />
         </button>
         <input
           className="form-input"
@@ -49,7 +40,7 @@ const Form: React.FC = () => {
           onChange={(e) => setValue(e.target.value)}
         />
         <button type="submit" className="btn-input-icon">
-          <img src="./add.png" alt="add"></img>
+          <img src="/add.png" alt="add"></img>
         </button>
       </div>
     </FormWrapper>

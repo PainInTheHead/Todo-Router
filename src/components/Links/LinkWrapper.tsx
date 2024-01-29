@@ -1,31 +1,42 @@
-import { Link, Outlet } from "react-router-dom";
+import { NavLink, Link, Outlet } from "react-router-dom";
 import { Container } from "./LinkWrapper.styles";
 import { Button } from "antd";
-import { selectUser } from "../../utilites/selectors";
-import { useAppDispatch, useAppSelector } from "../../hook";
 import { resetState } from "../../store/userSlice";
 import { useNavigate } from "react-router-dom";
 import { logOutUser } from "../../store/todoSlice";
-
+import { useAppSelector, useAppDispatch } from "../../hook";
+import { selectTodos, selectUser } from "../../utilites/selectors";
+import { UserOutlined } from "@ant-design/icons";
+import { Avatar } from "antd";
 
 const Layout = () => {
-  const navigate = useNavigate()
-  const user = useAppSelector(selectUser)
-  const dispatch = useAppDispatch()
+  const navigate = useNavigate();
+  const dispatch = useAppDispatch();
   const signOut = () => {
-    localStorage.clear()
-    dispatch(resetState())
-    dispatch(logOutUser())
-    navigate("/")
-    }
-  
+    localStorage.clear();
+    dispatch(resetState());
+    dispatch(logOutUser());
+    navigate("/");
+  };
+  const user = useAppSelector(selectUser);
+  const { avatar } = user;
+
   return (
     <Container>
       <header>
-        {/* <Link to="/">Sign</Link> */}
-        <Button onClick={() => signOut()} type="link">Sign out</Button>
-        <Link to="/todos">My Todo</Link>
-        <Link to="/profile">profile</Link>
+        <Button className="link-btn" onClick={() => signOut()} type="link">
+          Sign out
+        </Button>
+        <NavLink to="/main/todos">My Todo</NavLink>
+        <button
+          className="avatar-btn"
+          onClick={() => navigate("/main/profile")}
+        >
+          <Avatar
+            size={50}
+            icon={avatar ? <img src={avatar} alt="AVA" /> : <UserOutlined />}
+          />
+        </button>
       </header>
       <main>
         <Outlet />

@@ -32,4 +32,18 @@ margin: 30vh auto;
       background-color: #0062f3;
     }
   }
+  .error-form{
+    color: red;
+    opacity: 0.6;
+  }
+  .email {
+    margin-bottom: 30px;
+  }
+  .password {
+    margin-bottom: 30px;
+  }
+
+  .remember{
+    margin-bottom: 30px;
+  }
 `;
