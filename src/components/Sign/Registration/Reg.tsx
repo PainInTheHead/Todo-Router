@@ -8,7 +8,11 @@ import * as yup from "yup";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { ToastContainer, toast } from "react-toastify";
-import { toastSuccesReg, toastErrorAuntificate, toastErrorHolder } from "../../../utilites/tosters";
+import {
+  toastSuccesReg,
+  toastErrorAuntificate,
+  toastErrorHolder,
+} from "../../../utilites/tosters";
 
 const initialValues = {
   email: "",
@@ -32,9 +36,7 @@ const validationSchema = Yup.object().shape({
     ),
 });
 
-
 const Reg: React.FC = () => {
-
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
@@ -44,16 +46,16 @@ const Reg: React.FC = () => {
     const pass = values.password;
     try {
       if (!(name && pass)) {
-        return toastErrorHolder()
+        return toastErrorHolder();
       }
-        const response = await dispatch(
-          registration({ email: name, password: pass })
-        );
-        if (response.payload.email === name) {
-          toastSuccesReg()
-        }
+      const response = await dispatch(
+        registration({ email: name, password: pass })
+      );
+      if (response.payload.email === name) {
+        toastSuccesReg();
+      }
     } catch (error) {
-      toastErrorAuntificate()
+      toastErrorAuntificate();
     }
   };
 
@@ -107,6 +109,7 @@ const Reg: React.FC = () => {
                   value="remember"
                   as={Checkbox}
                   checked={values.remember}
+                  style={{ marginRight: "10px" }}
                 />
                 <label htmlFor="remember">Remember me</label>
               </div>

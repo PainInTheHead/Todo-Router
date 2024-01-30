@@ -5,7 +5,11 @@ import { useAppDispatch } from "../../../hook";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { ToastContainer, toast } from "react-toastify";
-import { toastSuccesReg, toastErrorAuntificate, toastErrorHolder } from "../../../utilites/tosters";
+import {
+  toastSuccesReg,
+  toastErrorAuntificate,
+  toastErrorHolder,
+} from "../../../utilites/tosters";
 
 const Login: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -22,7 +26,7 @@ const Login: React.FC = () => {
     const name = values.email;
     const pass = values.password;
     if (!(name && pass)) {
-      return toastErrorHolder()
+      return toastErrorHolder();
     }
     try {
       const response = await dispatch(
@@ -41,21 +45,19 @@ const Login: React.FC = () => {
         navigate("/main/todos");
       }
     } catch (error) {
-      toastErrorAuntificate()
+      toastErrorAuntificate();
     }
   };
 
   const validationSchema = Yup.object().shape({
-    email: Yup.string()
-      .required("Please enter your email")
-      // .email("Please enter a valid email address"),
-      .matches(
-        /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
-        "Please enter a valid email address"
-      ),
-    password: Yup.string()
-      .required("Please enter your password")
-      .min(8, "Password must be at least 8 characters long"),
+    email: Yup.string().required("Please enter your email"),
+    // .email("Please enter a valid email address"),
+    // .matches(
+    //   /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
+    //   "Please enter a valid email address"
+    // ),
+    password: Yup.string().required("Please enter your password"),
+    // .min(8, "Password must be at least 8 characters long"),
   });
 
   return (
@@ -71,7 +73,7 @@ const Login: React.FC = () => {
               <label htmlFor="email">Email:</label>
               <Field
                 label="Email"
-                type="email"
+                // type="email"
                 id="email"
                 name="email"
                 as={Input}
@@ -107,6 +109,7 @@ const Login: React.FC = () => {
                 value="remember"
                 as={Checkbox}
                 checked={values.remember}
+                style={{ marginRight: "10px" }}
               />
               <label htmlFor="remember">Remember me</label>
             </div>

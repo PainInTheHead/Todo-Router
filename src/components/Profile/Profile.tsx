@@ -1,5 +1,5 @@
 import React from "react";
-import { Container} from "./Profile.styled";
+import { Container } from "./Profile.styled";
 import { UserOutlined } from "@ant-design/icons";
 import { Avatar } from "antd";
 import { useAppSelector, useAppDispatch } from "../../hook";
@@ -43,58 +43,61 @@ const Profile: React.FC = () => {
 
   return (
     <Container>
-      <div className="aboutUser">
-        <div className="avatar">
-          <Avatar
-            size={200}
-            icon={avatar ? <img src={avatar} alt="AVA" /> : <UserOutlined />}
-          />
-          <Button
-            style={{ width: "200px" }}
-            onClick={() => setFormAva(!formAva)}
-          >
-            New avatar
-          </Button>
+      <div className="avatar">
+        <Avatar
+          size={400}
+          icon={avatar ? <img src={avatar} alt="AVA" /> : <UserOutlined />}
+        />
+        <Button
+          className="btn"
+          style={{ width: "400px" }}
+          onClick={() => setFormAva(!formAva)}
+        >
+          New avatar
+        </Button>
 
-          {formAva && (
+        {formAva && (
+          <>
             <Form
               name="basic"
-              style={{ maxWidth: 600 }}
+              style={{ width: "400px" }}
               initialValues={{ remember: true }}
               onFinish={onFinish}
               onFinishFailed={onFinishFailed}
               autoComplete="off"
             >
-              <Space.Compact style={{ width: "200px" }}>
+              <Space.Compact style={{ width: "400px" }}>
                 <Form.Item<FieldType> name="avatar">
-                  <Input placeholder="Enter your email" />
+                  <Input
+                    style={{ width: "300px" }}
+                    placeholder="Enter your email"
+                  />
                 </Form.Item>
 
                 <Form.Item>
-                  <Button type="primary" htmlType="submit">
+                  <Button
+                    style={{ width: "100px" }}
+                    type="primary"
+                    htmlType="submit"
+                  >
                     Submit
                   </Button>
                 </Form.Item>
               </Space.Compact>
             </Form>
-          )}
-        </div>
-      </div>
-      <div className="info">
-        <ul>
-          <li>your email: {email}</li>
-          <li>your pass: {password}</li>
-          <li>your id: {id}</li>
-        </ul>
+            <ToastContainer />
+          </>
+        )}
       </div>
       <div className="aboutTodos">
-        <ul>
+        <ul className="list">
+          <li>your email: {email}</li>
+          <li>your id: {id}</li>
           <li>all todos: {allTodos}</li>
           <li>all complited: {completedTodos}</li>
           <li>all active: {activedTodos}</li>
         </ul>
       </div>
-      <ToastContainer />
     </Container>
   );
 };

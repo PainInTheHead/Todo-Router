@@ -1,7 +1,4 @@
-import {
-  Routes,
-  Route,
-} from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import Layout from "../components/Links/LinkWrapper";
 import TodoList from "../components/TodoList/TodoList";
 import SignPage from "../components/Sign/SignPage";
@@ -17,7 +14,6 @@ import TodoDetails from "../components/TodoList/Todos/TodoDetails/TodoDetails";
 import { Spin } from "antd";
 import "react-toastify/dist/ReactToastify.css";
 
-
 function App() {
   const user = useAppSelector(selectUser);
   const dispatch = useAppDispatch();
@@ -28,7 +24,7 @@ function App() {
       try {
         await dispatch(getUser());
         if (user.email) {
-          dispatch(getTodos());
+          // dispatch(getTodos());
         }
       } catch (error) {
         console.error(error);

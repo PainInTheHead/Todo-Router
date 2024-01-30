@@ -6,20 +6,22 @@ import Todos from "./Todos/Todos";
 import Buttons from "./Buttons/Buttons";
 import { useAppDispatch, useAppSelector } from "../../hook";
 import { getTodos } from "../../store/todoSlice";
-import { selectTodos } from "../../utilites/selectors";
+import { selectTodos, totalTodos } from "../../utilites/selectors";
 import { Container } from "./Todolist.styles";
 
 const TodoList: React.FC = () => {
   const dispatch = useAppDispatch();
- 
-  const todos = useAppSelector(selectTodos);
+  const total = useAppSelector(totalTodos);
+  // useEffect(() => {
+  //   dispatch(getTodos());
+  // }, [dispatch, total]);
 
   return (
     <Container>
       <h1 className="title">Todos</h1>
       <Form />
       <CounterTodos />
-      {todos.length !== 0 && <Buttons />}
+      {total !== 0 && <Buttons />}
       <Todos />
     </Container>
   );
