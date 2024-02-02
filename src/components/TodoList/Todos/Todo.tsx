@@ -59,8 +59,8 @@ const Todo: React.FC<TodoProps> = ({ _id, title, done, isEdit }) => {
   return (
     <TodoWrapper
       onDoubleClick={handleEdit}
-      done={done}
-      isEdit={isEdit}
+      done={done ? "true" : "false"}
+      isedit={isEdit ? "true" : "false"}
       key={_id}
     >
       <div onDoubleClick={handleWrapperDoubleClick} className="todo-wrapper">
@@ -83,20 +83,18 @@ const Todo: React.FC<TodoProps> = ({ _id, title, done, isEdit }) => {
           <span>{title}</span>
         )}
       </div>
-      <button>
-        <img
-          src="/deletebut.png"
-          alt="delete"
-          onClick={goDelete}
-        ></img>
-      </button>
-      <button>
-        <img
-          src="/share.png"
-          alt="delete"
-          onClick={() => navigate(`/todos/${_id}`)}
-        ></img>
-      </button>
+      <div>
+        <button>
+          <img src="/deletebut.png" alt="delete" onClick={goDelete}></img>
+        </button>
+        <button>
+          <img
+            src="/share.png"
+            alt="details"
+            onClick={() => navigate(`/main/todos/${_id}`)}
+          ></img>
+        </button>
+      </div>
     </TodoWrapper>
   );
 };

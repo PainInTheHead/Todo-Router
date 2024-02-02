@@ -43,7 +43,7 @@ export const Container = styled.div`
       height: 70px;
       padding: 20px 30px;
       background: linear-gradient(to left, #efefef 0%, #fff, #efefef);
-      border: 2px solid #c0c0c0;
+      border: 2px solid #83a2ff;
       border-radius: 10px;
       color: #506a6b;
       box-shadow: 0 5px 5px 0 rgba(0, 0, 0, 0.2);
@@ -58,7 +58,7 @@ export const Container = styled.div`
       margin-bottom: 30px;
     }
     .list li:hover {
-      border: 2px solid #adcee9;
+      border: 2px solid #1d55ff;
     }
     .list li:before {
       content: "";

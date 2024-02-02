@@ -4,6 +4,7 @@ import {
   clearComplited,
 } from "../../../store/todoSlice";
 import { useAppDispatch } from "../../../hook";
+import { Button } from "antd";
 
 import { NavButtonWrapper } from "./Butons.styles";
 
@@ -12,15 +13,21 @@ const Buttons: React.FC = () => {
 
   return (
     <NavButtonWrapper>
-      <button onClick={() => dispatch(clearAllTodo())}>Clear All</button>
-      <button onClick={() => dispatch(openFiltered("all"))}>All</button>
-      <button onClick={() => dispatch(openFiltered("active"))}>Active</button>
-      <button onClick={() => dispatch(openFiltered("complete"))}>
+      <Button type="primary" onClick={() => dispatch(clearAllTodo())}>
+        Clear All
+      </Button>
+      <Button type="primary" onClick={() => dispatch(openFiltered("all"))}>
+        All
+      </Button>
+      <Button type="primary" onClick={() => dispatch(openFiltered("active"))}>
+        Active
+      </Button>
+      <Button type="primary" onClick={() => dispatch(openFiltered("complete"))}>
         Completed
-      </button>
-      <button onClick={() => dispatch(clearComplited())}>
+      </Button>
+      <Button type="primary" onClick={() => dispatch(clearComplited())}>
         Clear complited
-      </button>
+      </Button>
     </NavButtonWrapper>
   );
 };

@@ -1,9 +1,5 @@
 import styled, { createGlobalStyle } from "styled-components";
 
-
-
-
-
 export const GlobalStyle = createGlobalStyle`
   * {
     box-sizing: border-box;
@@ -16,6 +12,13 @@ export const GlobalStyle = createGlobalStyle`
     line-height: 1.5;
     background-color: #fff;
   }
+
+  .Spin{
+    height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+  }
 `;
 
 export const Container = styled.div`
@@ -27,34 +30,39 @@ export const Container = styled.div`
   color: black;
   header {
     .link-btn {
+      cursor: pointer;
+      background-color: white;
+      border: none;
       color: black;
+      height: 60px;
+      width: 60px;
     }
     .link-btn::after {
       color: black;
     }
     a {
+      text-decoration: none;
       color: gray;
     }
     a:hover {
       color: #b3b3b3;
     }
     a.active {
-      color: black;
+      color: gray;
     }
     height: 70px;
     display: flex;
     justify-content: space-evenly;
     align-items: center;
-    border: 2px solid #29203c;
-    border-radius: 4px;
+    border-bottom: 2px solid #1d55ff;
     background-color: white;
     .avatar-btn {
       border-radius: 50%;
       cursor: pointer;
-      border: 1px solid black;
+      border: 1px solid #5580ff;
     }
     .avatar-btn:hover {
-      border: 1px solid #62e200;
+      border: 1px solid #1d55ff;
     }
   }
 
@@ -65,18 +73,18 @@ export const Container = styled.div`
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    background-color: whitesmoke;
+    background-color: white;
   }
 
   footer {
+    color: gray;
     display: flex;
     justify-content: center;
     align-items: center;
     height: 40px;
     display: flex;
     justify-content: space-evenly;
-    border: 2px solid #29203c;
-    border-radius: 4px;
+    border-top: 2px solid #1d55ff;
     background-color: white;
   }
 `;

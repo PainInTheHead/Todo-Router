@@ -1,29 +1,28 @@
 import styled from "styled-components";
+import Pagination from "antd/lib/pagination";
+
 export interface ComponentProps {
-  done: boolean;
-  isEdit: boolean;
+  done: string;
+  isedit: string;
 }
 
 export const TodosWrap = styled.ul`
-  display: flex;
-  align-items: center;
-  flex-direction: column;
-  padding: 10px;
-  margin-top: 10px;
-  .pagination {
-   position:absolute;
-    margin-top: 10px;
-    bottom: 2%;
-    left: 50%;
-    transform: translateX(-50%);
-  }
+  list-style-type: none;
 `;
 
-export const TodoWrapper = styled.li<ComponentProps>`
+export const PaginationStyled = styled.div`
+  position: absolute;
+  margin-top: 10px;
+  bottom: 1%;
+  left: 50%;
+  transform: translateX(-50%);
+`;
+
+export const TodoWrapper = styled.span<ComponentProps>`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  color: black;
+  color: gray;
   position: relative;
   list-style-type: none;
   width: 100%;
@@ -32,14 +31,14 @@ export const TodoWrapper = styled.li<ComponentProps>`
   border-radius: 10px;
   font-size: 20px;
   cursor: pointer;
-  margin: 5px auto;
+  margin: 15px auto;
   background-color: white;
 
-  text-decoration: ${(props) => (props.done ? "line-through" : "")};
+  text-decoration: ${(props) => (props.done === "true" ? "line-through" : "")};
   box-shadow: ${(props) =>
-    props.done
+    props.done === "true"
       ? "1px 5px 1px 0 #c2ffbc"
-      : props.isEdit
+      : props.isedit === "true"
       ? "1px 5px 1px 0 #4681ee"
       : ""};
 
@@ -79,4 +78,13 @@ export const TodoWrapper = styled.li<ComponentProps>`
       height: 100%;
     }
   }
+`;
+
+export const SpinWrapper = styled.div`
+  position: absolute;
+  width: 100px;
+  height: 100px;
+  left: 50%;
+  bottom: 20%;
+  transform: translate(-50%, -50%);
 `;

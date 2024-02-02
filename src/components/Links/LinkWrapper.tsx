@@ -8,6 +8,8 @@ import { useAppSelector, useAppDispatch } from "../../hook";
 import { selectTodos, selectUser } from "../../utilites/selectors";
 import { UserOutlined } from "@ant-design/icons";
 import { Avatar } from "antd";
+import Lottie from "lottie-react";
+import animationData from "./Animation - 1706702735032.json";
 
 const Layout = () => {
   const navigate = useNavigate();
@@ -24,9 +26,17 @@ const Layout = () => {
   return (
     <Container>
       <header>
-        <Button className="link-btn" onClick={() => signOut()} type="link">
+        {/* <Button
+          style={{ color: "gray" }}
+          className="link-btn"
+          onClick={() => signOut()}
+          type="link"
+        >
           Sign out
-        </Button>
+        </Button> */}
+        <button className="link-btn" onClick={() => signOut()}>
+          <Lottie animationData={animationData} />
+        </button>
         <NavLink to="/main/todos">My Todo</NavLink>
         <button
           className="avatar-btn"

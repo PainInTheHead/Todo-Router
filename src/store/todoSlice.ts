@@ -25,7 +25,7 @@ export const addTodo = createAsyncThunk(
 
 export const deletedTodo = createAsyncThunk(
   "todos/deletedTodo",
-  async (_id: any) => {
+  async (_id: number) => {
     const response = await axios.delete(`todos/todo/${_id}`);
     return response.data;
   }
@@ -42,8 +42,8 @@ export const clearComplited = createAsyncThunk("clearComplited", async () => {
 
 export const setDoneTodo = createAsyncThunk(
   "todos/setDoneTodo",
-  async (id: any) => {
-    const response = await axios.put(`todos/todo/${id}`);
+  async (_id: number) => {
+    const response = await axios.put(`todos/todo/${_id}`);
     return response.data;
   }
 );
@@ -55,7 +55,7 @@ export const allSelect = createAsyncThunk("allSelect", async () => {
 
 export const setEditTodo = createAsyncThunk(
   "todos/setEditTodo",
-  async (payload: { id: any; title: string }) => {
+  async (payload: { id: number; title: string }) => {
     const response = await axios.put(`todos/edit/${payload.id}`, {
       title: payload.title,
     });
@@ -63,15 +63,6 @@ export const setEditTodo = createAsyncThunk(
   }
 );
 
-// export const getPaginationTodos = createAsyncThunk(
-//   "todos/pagination",
-//   async (payload: { page: number; filter: string }) => {
-//     const response = await axios.get(`todos/pagination?page=${payload.page}`, {
-//       filter: payload.filter,
-//     });
-//     return response.data;
-//   }
-// );
 export const getPaginationTodos = createAsyncThunk(
   "todos/pagination",
   async (payload: { page: number; filter: string }) => {
@@ -85,8 +76,8 @@ export const getPaginationTodos = createAsyncThunk(
   }
 );
 
-interface Todo {
-  _id: any;
+export interface Todo {
+  _id: number;
   title: string;
   done: boolean;
   isEdit: boolean;
@@ -114,7 +105,12 @@ const isAnyPending = isAnyOf(
   getTodos.pending,
   addTodo.pending,
   deletedTodo.pending,
-  setDoneTodo.pending
+  setDoneTodo.pending,
+  setEditTodo.pending,
+  clearAllTodo.pending,
+  clearComplited.pending,
+  allSelect.pending,
+  getPaginationTodos.pending
 );
 
 const todoSlice = createSlice({
@@ -122,7 +118,7 @@ const todoSlice = createSlice({
   initialState,
 
   reducers: {
-    editTitleTodo(state, action: PayloadAction<{ id: any; title: string }>) {
+    editTitleTodo(state, action: PayloadAction<{ id: number; title: string }>) {
       const editTodo = state.todos.find(
         (todo) => todo._id === action.payload.id
       );
@@ -131,7 +127,7 @@ const todoSlice = createSlice({
       }
     },
 
-    editorTodo(state, action: PayloadAction<any>) {
+    editorTodo(state, action: PayloadAction<number>) {
       const editTodo = state.todos.find((todo) => todo._id === action.payload);
       if (editTodo) {
         editTodo.isEdit = !editTodo.isEdit;
@@ -149,16 +145,10 @@ const todoSlice = createSlice({
 
   extraReducers: (builder) => {
     builder
-      // .addCase(getTodos.pending, (state) => {
-      //   state.status = "loading";
-      // })
       .addCase(getTodos.fulfilled, (state, action) => {
         state.status = "succeeded";
         state.todos = action.payload;
       })
-      // .addCase(addTodo.pending, (state) => {
-      //   state.status = "loading";
-      // })
       .addCase(addTodo.fulfilled, (state, action) => {
         state.status = "succeeded";
         state.todos.unshift({
@@ -172,25 +162,38 @@ const todoSlice = createSlice({
       .addCase(addTodo.rejected, (state) => {
         state.status = "failed";
       })
-      // .addCase(deletedTodo.pending, (state) => {
-      //   state.status = "loading";
-      // })
       .addCase(deletedTodo.fulfilled, (state, action) => {
-        state.status = "succeeded";
+        // state.status = "succeeded";
+        // state.todos = state.todos.filter((todo) => {
+        //   if (todo._id === action.payload._id) {
+        //     state.total -= 1;
+        //     if (todo.done) {
+        //       state.totalDone -= 1;
+        //     }
+        //   }
+        //   return todo._id !== action.payload._id;
+        // });
 
-        state.todos = state.todos.filter((todo) => {
+        const updatedTodos = state.todos.filter((todo) => {
           if (todo._id === action.payload._id) {
-            state.total -= 1;
-            if (todo.done) {
-              state.totalDone -= 1;
-            }
+            return false; // Удаляем элемент из списка
           }
-          return todo._id !== action.payload._id;
+          return true;
         });
+
+        const updatedTotal = state.total - 1;
+        const updatedTotalDone = action.payload.done
+          ? state.totalDone - 1
+          : state.totalDone;
+
+        return {
+          ...state,
+          todos: updatedTodos,
+          total: updatedTotal,
+          totalDone: updatedTotalDone,
+        };
       })
-      // .addCase(setDoneTodo.pending, (state) => {
-      //   state.status = "loading";
-      // })
+
       .addCase(setDoneTodo.fulfilled, (state, action) => {
         state.status = "succeeded";
         const toggledtodo = state.todos.find((todo) => {
@@ -204,9 +207,7 @@ const todoSlice = createSlice({
           state.totalDone += 1;
         }
       })
-      .addCase(setEditTodo.pending, (state) => {
-        state.status = "loading";
-      })
+
       .addCase(setEditTodo.fulfilled, (state, action) => {
         state.status = "succeeded";
         const editTodo = state.todos.find(
@@ -216,24 +217,22 @@ const todoSlice = createSlice({
           editTodo.title = action.payload.title;
         }
       })
-      .addCase(clearAllTodo.pending, (state) => {
-        state.status = "loading";
-      })
+
       .addCase(clearAllTodo.fulfilled, (state) => {
         state.status = "succeeded";
         state.todos = [];
+        state.total = 0;
+        state.totalDone = 0;
       })
-      .addCase(clearComplited.pending, (state) => {
-        state.status = "loading";
-      })
+
       .addCase(clearComplited.fulfilled, (state) => {
         state.status = "succeeded";
         const filteredTodo = state.todos.filter((todo) => !todo.done);
         state.todos = filteredTodo;
+        state.total = filteredTodo.length;
+        state.totalDone = 0;
       })
-      .addCase(allSelect.pending, (state) => {
-        state.status = "loading";
-      })
+      //
       .addCase(allSelect.fulfilled, (state) => {
         state.status = "succeeded";
         const allDone = state.todos.every((todo) => todo.done);
@@ -241,21 +240,13 @@ const todoSlice = createSlice({
           return { ...todo, done: !allDone };
         });
       })
-      .addCase(getPaginationTodos.pending, (state) => {
-        state.status = "loading";
-      })
+
       .addCase(getPaginationTodos.fulfilled, (state, action) => {
         state.status = "succeeded";
         state.todos = action.payload.docs;
         state.total = action.payload.totalCount;
         state.totalDone = action.payload.doneTodosCount;
       });
-    // .addCase(authorization.pending, (state) => {
-    //   state.status = "loading";
-    // })
-    // .addCase(authorization.fulfilled, (state) => {
-    //   state.status = "succeeded";
-    // });
 
     builder.addMatcher(isAnyPending, (state) => {
       state.status = "loading";

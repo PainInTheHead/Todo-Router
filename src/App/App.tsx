@@ -23,9 +23,6 @@ function App() {
     const checkAuth = async () => {
       try {
         await dispatch(getUser());
-        if (user.email) {
-          // dispatch(getTodos());
-        }
       } catch (error) {
         console.error(error);
       } finally {
